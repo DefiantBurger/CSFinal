@@ -18,8 +18,11 @@ def load_file_data(fileName: str):
 
 
 for inFile in os.listdir("input"):
-	print("listing", inFile)
 	if inFile.endswith(".jar"):
+		yn = input(f"Extract {inFile}? [Y/N]: ").upper()
+		if yn == "N":
+			continue
+
 		print("extracting", inFile)
 		fileName = inFile.removesuffix(".jar")
 
@@ -35,11 +38,18 @@ for inFile in os.listdir("input"):
 		if os.path.isdir('output/' + verFolderName):
 			raise ValueError(f"Folder with version: ({version}) already exist")
 
+		# THIS ONLY WORKS FOR 1 DIMENSIONAL JAR FILES
+		# WE WOULD HAVE TO ANALYSE EACH FILE FOR WHICH FOLDER IT GOES IT
+		# INSTEAD
+		# REPLACE THIS WITH JAR COMMAND, DOES EVERYTHING FOR US
 		os.system(f'7z e input/{inFile} -ooutput/{verFolderName} > logs/{verFolderName}.txt')
 
 		for extracted in os.listdir(f"output/{verFolderName}")[:]:
-			if not extracted.endswith(".java"):
-				os.remove(f"output/{verFolderName}/{extracted}")
+			if not os.path.isdir(f"output/{verFolderName}"):
+				if not extracted.endswith(".java"):
+					os.remove(f"output/{verFolderName}/{extracted}")
+
+
 
 
 print("saving version control")
