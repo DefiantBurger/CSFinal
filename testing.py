@@ -3,7 +3,7 @@ import shutil
 import json
 
 print("loading version control")
-with open('version_control.json', 'r') as f:
+with open("version_control.json", "r") as f:
 	versionControl = json.load(f)
 
 
@@ -35,14 +35,13 @@ for inFile in os.listdir("input"):
 
 		verFolderName = f"{fileName}-v{version}"
 
-		if os.path.isdir('output/' + verFolderName):
+		if os.path.isdir(f"output/{verFolderName}"):
 			raise ValueError(f"Folder with version: ({version}) already exist")
-
-		# THIS ONLY WORKS FOR 1 DIMENSIONAL JAR FILES
-		# WE WOULD HAVE TO ANALYSE EACH FILE FOR WHICH FOLDER IT GOES IT
-		# INSTEAD
-		# REPLACE THIS WITH JAR COMMAND, DOES EVERYTHING FOR US
-		os.system(f'7z e input/{inFile} -ooutput/{verFolderName} > logs/{verFolderName}.txt')
+		else:
+			os.mkdir(f"output/{verFolderName}")
+		
+		os.system(f"cd output/{verFolderName} \
+			&& jar xvf ../../input/{inFile} > ../../logs/{verFolderName}.txt")
 
 		for extracted in os.listdir(f"output/{verFolderName}")[:]:
 			if not os.path.isdir(f"output/{verFolderName}"):
@@ -53,7 +52,7 @@ for inFile in os.listdir("input"):
 
 
 print("saving version control")
-with open('version_control.json', 'w') as f:
+with open("version_control.json", "w") as f:
 	json.dump(versionControl, f, indent=2)
 
 
