@@ -7,7 +7,7 @@ from classes.input_file import InputFile
 versionController = VersionController("version_control.json")
 versionControl = versionController.get()
 
-inputFile = InputFile('input/joseph-cicalese-craps-7.jar')
-print(inputFile.get_name())
+inputFile = InputFile("input/test-person-validator-3.jar")
+versionControl = inputFile.load("output", versionControl)
 
 versionController.update(versionControl)
