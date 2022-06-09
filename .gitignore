@@ -3,3 +3,4 @@
 /logs
 /output
 /version_control.json
+processor/__pycache__
